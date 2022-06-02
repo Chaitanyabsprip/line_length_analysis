@@ -1,0 +1,3 @@
+- should parse through a file and aggregate the frequency of the each length of line
+- should be able to parse multiple files in a directory
+- should be able to parse multiple files recursive in directories
