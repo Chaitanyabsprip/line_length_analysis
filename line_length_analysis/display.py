@@ -2,27 +2,14 @@ import matplotlib.pyplot as plt
 
 
 def display_boxplot(data):
-    keys = list(data.keys())
-    keys.sort()
-    x = []
-    y = []
-    for line_length in keys:
-        x.append(line_length)
-        y.append(data[line_length])
+    x, y = _sanititze(data)
     plt.boxplot(x, y)
     plt.xlabel("Line Length")
-    plt.ylabel("Number of Occurrences")
     plt.show()
 
 
 def display_line_graph(data):
-    keys = list(data.keys())
-    keys.sort()
-    x = []
-    y = []
-    for line_length in keys:
-        x.append(line_length)
-        y.append(data[line_length])
+    x, y = _sanititze(data)
     plt.plot(x, y)
     plt.xlabel("Line Length")
     plt.ylabel("Number of Occurrences")
@@ -34,3 +21,14 @@ def pretty_print(data):
     keys.sort()
     for line_length in keys:
         print(f"{line_length}: {data[line_length]}")
+
+
+def _sanititze(data):
+    keys = list(data.keys())
+    keys.sort()
+    x = []
+    y = []
+    for line_length in keys:
+        x.append(line_length)
+        y.append(data[line_length])
+    return x, y

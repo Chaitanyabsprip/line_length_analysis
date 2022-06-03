@@ -56,18 +56,3 @@ class TestGetLineLengthFrequency:
         expected = {}
         result = line_length_frequency(input_list)
         assert result == expected
-
-
-class TestGetFileLines:
-    def test_should_return_empty_list_when_open_throws_filenotfounderror(self):
-        file_name = "file_does_not_exist.txt"
-        expected = []
-        result = file_lines(file_name)
-        assert result == expected
-
-    @pytest.mark.skip("don't yet know how to test this")
-    def test_should_return_1_element_list_when_file_has_1_line(self):
-        file_name = "single_line_file.txt"
-        expected = ["a"]
-        result = file_lines(file_name)
-        assert result == expected

@@ -11,7 +11,15 @@ def line_length_frequency(lines):
     return frequency_map
 
 
-def file_lines(filename):
+def lines_from_all_files(files, lines=None):
+    lines = lines or []
+    if len(files) == 0:
+        return lines
+    lines = lines + _file_lines(files.pop())
+    return lines_from_all_files(files, lines)
+
+
+def _file_lines(filename):
     try:
         with open(filename, mode="r", encoding="UTF-8") as file:
             return list(filter(lambda x: x != "\n", file.readlines()))
@@ -22,29 +30,26 @@ def file_lines(filename):
         return []
 
 
-def lines_from_all_files(files, lines=None):
-    lines = lines or []
-    if len(files) == 0:
-        return lines
-    lines = lines + file_lines(files.pop())
-    return lines_from_all_files(files, lines)
+def path_of_files_from(path, should_recurse=False):
+    if os.path.isdir(path):
+        return _path_of_files_in(path, should_recurse)
+    if os.path.isfile(path):
+        return [path]
+    return []
 
 
-def path_of_files_in_directory(directory, should_recurse=False):
-    list_of_file_paths = []
+def _path_of_files_in(directory, should_recurse=False):
+    file_paths = []
     for file in os.scandir(directory):
         if file.is_file():
-            list_of_file_paths.append(absolute_path_of_file(file.path))
+            file_paths.append(_absolute_path_of(file.path))
         elif should_recurse:
-            list_of_file_paths = (
-                list_of_file_paths
-                + path_of_files_in_directory(
-                    file.path, should_recurse=should_recurse
-                )
+            file_paths = file_paths + path_of_files_from(
+                file.path, should_recurse
             )
-    return list_of_file_paths
+    return file_paths
 
 
-def absolute_path_of_file(filename):
+def _absolute_path_of(filename):
     absolute_path = os.path.abspath(filename)
     return absolute_path
