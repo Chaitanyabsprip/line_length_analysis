@@ -1,6 +1,18 @@
 import os
 
 
+def get_line_length_frequency_for_each(file_paths, should_recurse=False):
+    line_length_frequencies = []
+    for file_path in file_paths:
+        abspath = os.path.abspath(file_path)
+        title = os.path.split(abspath)[1]
+        files = path_of_files_from(abspath, should_recurse)
+        lines = lines_from_all_files(files)
+        analysis = Analysis(title, line_length_frequency(lines))
+        line_length_frequencies.append(analysis)
+    return line_length_frequencies
+
+
 def line_length_frequency(lines):
     frequency_map = {}
     while len(lines) > 0:
@@ -53,3 +65,9 @@ def _path_of_files_in(directory, should_recurse=False):
 def _absolute_path_of(filename):
     absolute_path = os.path.abspath(filename)
     return absolute_path
+
+
+class Analysis:
+    def __init__(self, dir_name, line_length_analysis):
+        self.line_length_analysis = line_length_analysis
+        self.title = dir_name

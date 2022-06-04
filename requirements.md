@@ -5,4 +5,7 @@
 - [x] should accept which or file to run analysis on
 - [x] should accept `-r` flag to specify whether to re-curse into directories.
 - [x] should accept `-o` flag to specify output
-- [x] should have `box`, `line`, `stdout` as accepted values for `-o` flag
+- [x] should have `box`, `line`, as accepted values for `-o` flag
+
+- [x] should accept multiple paths
+- [x] should plot data for each file analysis in same output

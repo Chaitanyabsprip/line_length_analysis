@@ -1,23 +1,27 @@
 #! /usr/bin/env python3
-import os
+import argparse
 import sys
 
-from line_length_analysis.args_parser import (get_output_method,
-                                              get_recurse_flag,
-                                              output_method_factory)
-from line_length_analysis.line_length_analysis import (line_length_frequency,
-                                                       lines_from_all_files,
-                                                       path_of_files_from)
+from line_length_analysis.args_parser import ArgsParser, ArgsParserImpl
+from line_length_analysis.display import display_method_factory
+from line_length_analysis.line_length_analysis import \
+    get_line_length_frequency_for_each
 
 
 def main():
-    args = sys.argv[1:]
-    dir_arg = args[0] if len(args) > 0 else "."
-    directory = os.path.abspath(dir_arg)
-    files = path_of_files_from(directory, should_recurse=get_recurse_flag(args))
-    lines = lines_from_all_files(files)
-    output = output_method_factory(get_output_method(args))
-    output(line_length_frequency(lines))
+    parser = argparse.ArgumentParser(
+        description="Analyze the length of lines of source file(s)."
+    )
+    args_parser: ArgsParser = ArgsParserImpl(parser)
+    should_recurse = args_parser.get_recurse_flag()
+    file_paths = args_parser.get_file_paths()
+    display_method = args_parser.get_display_method()
+    print(should_recurse)
+    print(file_paths)
+    print(display_method)
+    analyses = get_line_length_frequency_for_each(file_paths)
+    output = display_method_factory(display_method)
+    output(analyses)
 
 
 if __name__ == "__main__":
