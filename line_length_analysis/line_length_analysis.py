@@ -1,4 +1,5 @@
 import os
+from dataclasses import dataclass
 
 
 def get_line_length_frequency_for_each(file_paths, should_recurse=False):
@@ -8,13 +9,13 @@ def get_line_length_frequency_for_each(file_paths, should_recurse=False):
         title = os.path.split(abspath)[1]
         files = path_of_files_from(abspath, should_recurse)
         lines = lines_from_all_files(files)
-        analysis = Analysis(title, line_length_frequency(lines))
+        analysis = Analysis(line_length_frequency(lines), title)
         line_length_frequencies.append(analysis)
     return line_length_frequencies
 
 
 def line_length_frequency(lines):
-    frequency_map = {}
+    frequency_map: dict[int, int] = {}
     while len(lines) > 0:
         string = lines.pop()
         if isinstance(string, str):
@@ -67,7 +68,7 @@ def _absolute_path_of(filename):
     return absolute_path
 
 
+@dataclass
 class Analysis:
-    def __init__(self, dir_name, line_length_analysis):
-        self.line_length_analysis = line_length_analysis
-        self.title = dir_name
+    line_length_analysis: dict[int, int]
+    title: str

@@ -1,18 +1,12 @@
 import argparse
 from abc import ABC, abstractmethod
 
+from line_length_analysis.config import Config
+
 
 class ArgsParser(ABC):
     @abstractmethod
-    def get_recurse_flag(self):
-        pass
-
-    @abstractmethod
-    def get_display_method(self):
-        pass
-
-    @abstractmethod
-    def get_file_paths(self):
+    def get_config(self) -> Config:
         pass
 
 
@@ -27,16 +21,12 @@ class ArgsParserImpl(ArgsParser):
         parser.add_argument(
             "-d",
             "--display",
-            choices=["line", "box", "stdout"],
+            choices=["line", "box", "stdout", "line-cli"],
             default="stdout",
         )
         parser.add_argument("file_paths", nargs="+")
 
-    def get_recurse_flag(self):
-        return self._args.recurse
-
-    def get_display_method(self):
-        return self._args.display
-
-    def get_file_paths(self):
-        return self._args.file_paths
+    def get_config(self) -> Config:
+        return Config(
+            self._args.recurse, self._args.display, self._args.file_paths
+        )

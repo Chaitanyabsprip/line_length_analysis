@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "source_code_analysis"
+version = "0.0.1"
+description = ""
+authors = ["Chaitanya Sharma <chaitanyasanjeevsharma@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+plotext = "^5.0.2"
+matplotlib = "^3.5.2"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.1.2"
+pytest-cov = "^3.0.0"
+mock = "^4.0.3"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pyright]
+venv=".venv"
